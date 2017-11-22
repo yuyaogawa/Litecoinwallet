@@ -1,0 +1,40 @@
+{
+  "name": "pusher-js",
+  "location": "git://github.com/pusher/pusher-js.git",
+  "description": "Pusher JavaScript library for browsers, React Native, NodeJS and web workers",
+  "keywords": [
+    "pusher",
+    "client",
+    "websocket",
+    "http",
+    "fallback",
+    "isomorphic",
+    "events",
+    "pubsub"
+  ],
+  "licence": "MIT",
+  "authors": [
+    "Pusher <support@pusher.com>"
+  ],
+  "main": "./dist/web/pusher.js",
+  "ignore": [
+    "**/*",
+    "!/dist/**/*",
+    "!LICENCE",
+    "!README.markdown",
+    "!bower.json",
+    "!CHANGELOG.markdown"
+  ],
+  "homepage": "https://github.com/pusher/pusher-js",
+  "version": "4.2.1",
+  "_release": "4.2.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.2.1",
+    "commit": "fdcd41fede9a745522ac0c8c1f77f3c9b6c03951"
+  },
+  "_source": "https://github.com/pusher/pusher-js.git",
+  "_target": "^4.2.1",
+  "_originalSource": "pusher",
+  "_direct": true
+}

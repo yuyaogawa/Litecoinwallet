@@ -1,0 +1,416 @@
+/**
+Switch background-color
+ 1) u.rtop u, u.rbottom u    : NAVY(default)
+    #openSend, #openReceive
+    div#bgNAVY_E5ECF9
+ 2) body                     : #E5ECF9(default)
+ 3) .box-header              : red(default)
+
+**/
+.BTC_IN     {color:green;font-weight:bold;}
+.BTC_OUT    {color:red;font-weight:bold;}
+
+.container 
+{
+  padding-top: 10px;
+}
+.infoTitle
+{
+  color: red;
+  margin-top: 20px;
+}
+
+.infoText
+{
+  font-size: 14px;
+}
+
+/* Customize container */
+@media (min-width: 401px) {
+  .container {
+    width: 100%;
+  }
+  .table{
+    width: 100%;
+  }
+}
+/* Customize container */
+@media (max-width: 400px) {
+  .container {
+    width: 100%;
+  }
+  .table{
+    width: 100%;
+  }
+  #publicKey{
+  font-size: 80%;
+  }
+  #qrcode{
+    zoom: 70%;
+  }
+}
+
+
+#history{
+  display: none;
+}
+#nohistory{
+  display: none;
+  text-align: center;
+}
+#loader-bg {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: #FFF;
+  z-index: 1000;
+  filter: alpha(opacity=85);
+  -moz-opacity:0.85;
+  opacity:0.85;
+}
+#loader {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin-top: -100px;
+  margin-left: -100px;
+  text-align: center;
+  color: #fff;
+  z-index: 1001;
+}
+
+#sendModal{
+  top:30%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+}
+#settingsCurrency
+{
+  display: none;
+}
+#currencySelect
+{
+  width: 200px;
+}
+#settingsFee
+{
+  text-align: left;
+  display: none;
+}
+#settingsMiningInfo
+{
+  margin-bottom: 10px;
+}
+.miningOption
+{
+  /**
+  padding: 10px 0;
+  **/
+  float: left;
+}
+
+.miningOptionLeft
+{
+  /**
+  width: 100px;
+  height: 60px;
+  **/
+  float: left;
+  text-align: center;
+  cursor: pointer;
+
+}
+.miningOptionRight
+{
+  font-size: 13px;
+  color: #969696;
+  line-height: 16px;
+  float: left;
+  /**
+  max-width: 250px;
+  margin-left: 20px;
+  margin-top: 10px;
+  **/
+}
+
+.settingsOption
+{
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: #FFF;
+  border-radius: 10px;
+  border: 4px solid #5A5B63;
+  /**
+  margin-top: 10px;
+  **/
+  cursor: pointer;
+}
+
+.optionActive
+{
+  background-color: #52B3EA;
+}
+
+#choiceCurrency{
+}
+
+#choiceFee{
+}
+
+#fiatPrice, #fiatPrice2, #fiatPriceFee
+{
+  font-size: 12px;
+  position: absolute;
+  right: 64px;
+  color: #A8A8A8;
+  display: block;
+  z-index: 5;
+  top: 9px;
+}
+#settingsBackup
+{
+  display: none;
+}
+#passwordBox
+{
+  display: none;
+}
+#enterPassword
+{
+  display: none;
+}
+.input-group-addon {
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.modal-content {
+background-color:white;
+}
+
+.row {
+  margin-top:15px;
+}
+
+#openSend, #openReceive{
+text-align:center;
+font-weight:bold;
+color:white;
+background-color:NAVY;
+width:50%;
+border-color:#DAD2D0;
+}
+
+.tbl-border{
+  background-color:red;
+  height:2px;
+}
+
+.box{
+  border:0;
+  width:100%;
+  border:1px white;
+  background-color:white;
+}
+.box-header{
+  text-align:center;
+  font-weight:bold;
+  color:white;
+  background-color:NAVY;
+}
+#balance{
+  font-size:24px;
+  font-weight:bold;
+}
+#qrcode{
+  border:0;
+  /**
+  height:50px;
+  margin: 50px 0px;
+  **/
+  /** This is alternative of vspace:10px **/
+  padding:5px;
+}
+#txtMnemonic4Bk{
+   white-space: pre-wrap;
+}
+@media screen {
+  #printSection {
+      display: none;
+  }
+}
+
+@media print {
+  body * {
+    visibility:hidden;
+  }
+  #printSection, #printSection * {
+    visibility:visible;
+  }
+  #printSection {
+    position:absolute;
+    left:0;
+    top:0;
+    width: 100%;
+  }
+}
+
+.modal-header, .modal-body, .modal-footer {
+  background-color: #E5ECF9;
+}
+.modal-header {
+    padding: 5px;
+}
+.col-sm-4 {
+  font-weight: bold;
+}
+#passwordModalheader{
+  background-color:NAVY;
+  padding: 10px;
+}
+
+body                {font-family:'Droid Sans',Arial,Helvetica,sans-serif;font-size:14px;xline-height:15px;background-color:#E5ECF9;}
+HR                  {background:#CCCCCC; 
+                     margin-top: 10px !important;
+                     margin-bottom: 10px ! important; 
+                    }
+A:link              {color: #CC0000  ; font-weight: bold; text-decoration: none;        }
+A:visited           {color: #CC0000  ; font-weight: bold; text-decoration: none;        }
+A:active            {color: #CC0000  ; font-weight: bold; text-decoration: none;        }
+A:focus             {color: #000099  ; font-weight: bold; text-decoration: underline;   }
+A:hover             {color: #000099  ; font-weight: bold; text-decoration: underline;   }
+select, input, TD,
+   UL, TR, P, BR    {color: black}
+textarea            {11px}
+TH                  {font-weight: bold; font-size: 11px; color: #003466}
+CODE                {font-weight: bold; font-size: 10px}
+H1                  {font-weight: bold; font-size: 18px; color: #000099; text-decoration: underline;}
+H3                  {font-weight: bold; font-size: 14px; color: #000099; text-decoration: underline;}
+H5                  {font-weight: bold; font-size: 10px; color: #000099; text-decoration: underline;}
+EM                  {font-size: 10px}
+
+
+div#bgNAVY_E5ECF9            { background:NAVY }
+u.rtop, u.rbottom           { display:block;background:#E5ECF9 }
+u.rtop u, u.rbottom u       { display:block;height:1px;overflow:hidden;background:NAVY }
+u.r1                        { margin:0 5px; }
+u.r2                        { margin:0 3px; }
+u.r3                        { margin:0 2px; }
+u.rtop u.r4, u.rbottom u.r4 { margin:0 1px;;height:2px }
+
+div#bgE5ECF9_NAVY           { background:#FFFFFE }
+/*  i.rtopX, i.rbottomX         { display:block;background:NAVY }    bottom of logo on gradient is wrong, so just don't do it! */
+i.rtop i, i.rbottom i       { display:block;height:1px;overflow:hidden;background:#FFFFFE }
+i.r1                        { margin:0 5px; }
+i.r2                        { margin:0 3px; }
+i.r3                        { margin:0 2px; }
+i.rtop i.r4, i.rbottom i.r4 { margin:0 1px;;height:2px }
+
+
+
+.help             { font-weight:bold;border-bottom:2px dotted;cursor:help; }  
+
+a.track:link      { font-weight:normal;font-size:8px;color:gray; }
+a.track:visited   { font-weight:normal;font-size:8px;color:gray; }
+a.track:active    { font-weight:normal;font-size:8px;color:gray; }
+a.track:focus     { font-weight:normal;font-size:8px;color:gray; }
+a.track:hover     { font-weight:normal;font-size:8px;color:black; }
+.track            { font-weight:normal;font-size:8px;color:gray; }
+
+a.reverse:link    { background:navy;color:#E5ECF9;font-weight:bold; }
+a.reverse:visited { background:navy;color:#E5ECF9;font-weight:bold; }
+a.reverse:active  { background:navy;color:#E5ECF9;font-weight:bold; }
+a.reverse:focus   { background:navy;color:#E5ECF9;font-weight:bold; }
+a.reverse:hover   { background:navy;color:#FFFFFE;font-weight:bold; }
+.reverse          { background:navy;color:#E5ECF9;font-weight:bold; }
+
+a.navleft:link    { color:#E5ECF9;font-weight:normal; }
+a.navleft:visited { color:#E5ECF9;font-weight:normal; }
+a.navleft:active  { color:#E5ECF9;font-weight:normal; }
+a.navleft:focus   { color:#E5ECF9;font-weight:normal; }
+a.navleft:hover   { color:navy;font-weight:normal;background:#E5ECF9;  }
+
+a.navgray:link    { color:gray;font-weight:normal; }
+a.navgray:visited { color:gray;font-weight:normal; }
+a.navgray:active  { color:gray;font-weight:normal; }
+a.navgray:focus   { color:gray;font-weight:normal; }
+a.navgray:hover   { color:gray;font-weight:normal; }
+
+
+.overview {  position: relative; width: 95% ; background-color: white;
+        overflow: hidden; border: 2px solid RED; padding: 8px; text-align:justify;line-height:1.5;  }
+
+        
+        
+/* latin */
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans Regular'), local('DroidSans-Regular'), url(http://fonts.gstatic.com/s/droidsans/v7/s-BiyweUPV0v-yRb-cjciPk_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* latin */
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url(http://fonts.gstatic.com/s/droidsans/v7/EFpQQyG9GqCrobXxL-KRMYWiMMZ7xLd792ULpGE4W_Y.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+
+
+
+

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>DexWallet v1.00</title>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Pragma-Directive" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Directive" content="no-cache">
+    <meta http-equiv="Expires" content="Wed, 09 Aug 2000 08:21:57 GMT">
+    <meta name="Revisit-After" content="7 days"> 
+    <meta name="Robots" content="index, follow">
+    <meta name="Copyright" content="(c) 1996-2017 DEXAGON.com">
+    <meta name="Created" content="20170113214947UTC">
+    <meta name="Description" content="Dexagon Bitcoin DexWallet">
+    <meta name="Keywords" content="bitcoin wallet free online btc blockchain bitcoins blockchains address satoshi millibit unlimited core segwit segregated witness segwit2x">
+    <link rel="Shortcut Icon" href="/favicon.ico">
+    <!-- added by yuya 2017-08-23 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="bower_components/bitcore-lib/bitcore-lib.min.js"></script>
+    <!--script src="bower_components/bitcore-explorers/bitcore-explorers.js"></script-->
+    <script src="bower_components/bitcore-mnemonic/bitcore-mnemonic.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/lib/html5-qrcode.js"></script>
+    <script src="bower_components/lib/jsqrcode-combined.min.js"></script>
+    <script src="bower_components/buffer/buffer.min.js"></script>
+    <script src="bower_components/bitcoinjs.js"></script>
+    <script src="bower_components/pusher-js/2.1.6/pusher.min.js"></script>
+    <script src="app.js"></script>
+
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<!-- Header Banner -->
+<center>
+<div id="bgNAVY_E5ECF9" style="width:95%;">
+    <u class="rtop"><u class="r1"></u><u class="r2"></u><u class="r3"></u><u class="r4"></u></u>
+
+            <td align="center" valign="middle">
+                <span style='color:#FFFFFE;font-weight:bold;font-size:150%;'>DexWallet</span>
+                &nbsp;
+                <span style='color:#FFFFFE;font-weight:bold;xfont-size:100%;'>
+                    by <a href='http://dexagon.com' target='_blank' style='color:#FFFFFE;'>Dexagon Inc.</a>
+                </span>
+            </td>
+
+    <!-- ********************* Button trigger modal ********************* -->
+    <button type="text" class="glyphicon glyphicon-info-sign" data-toggle="modal" data-target="#infoModal"></button>
+    <button type="text" class="glyphicon glyphicon-cog" data-toggle="modal" id="settings"></button>
+</div>
+<table border="0" cellpadding="0" cellspacing="0" width="95%">
+        <tr>
+            <td class="tbl-border"></td>
+        </tr>
+</table>
+</center>
+
+
+<!--  Information Modal  -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="modal-title" id="exampleModalLabel"></a>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab">
+                    <button class="tablinks" onclick="openTab(event, 'NOTICE')" id="defaultOpen">NOTICE</button>
+                    <button class="tablinks" onclick="openTab(event, 'USES')" id="defaultOpen">USES</button>
+                    <button class="tablinks" onclick="openTab(event, 'FEATURES')" id="defaultOpen">FEATURES</button>
+                    <button class="tablinks" onclick="openTab(event, 'SEND')">SEND</button>
+                    <button class="tablinks" onclick="openTab(event, 'RECEIVE')">RECEIVE</button>
+                    <button class="tablinks" onclick="openTab(event, 'DICTIONARY')">DICTIONARY</button>
+                    <button class="tablinks" onclick="openTab(event, 'FAQ')">FAQ</button>
+                    <button class="tablinks" onclick="openTab(event, 'BACKUP')">BACKUP</button>
+                    <button class="tablinks" onclick="openTab(event, 'ABOUT')">ABOUT</button>
+                </div>
+                <div id="NOTICE" class="tabcontent">
+                    <div class="infoText">* <b>Backup your URL/password. It is the only way to access your wallet!</b></div>
+                    <div class="infoText">* Do not send from this address to the same address (wastes money)</div>
+                    <div class="infoText">* Sending includes a small transaction fee to Litecoin Miners</div>
+                    <div class="infoText">* Do not lose the URL and your password - this is the only access you have!</div>
+                    <div class="infoText">* We do not store any of your information! Lost URL/passwords are GONE!</div>
+                    <div class="infoText">* Protect this wallet like you would protect a "real" wallet</div>
+                    <div class="infoText">* Do not share this URL/password with anyone</div>
+                    <div class="infoText">* Backup your URL/password. It is the only way to access your wallet! (2)</div>
+                    <div class="infoText">* Transactions could take between 10 minutes and an hour to confirm</div>
+                    <div class="infoText">* Transactions must have at least 6 confirmations before funds are available</div>
+                    <div class="infoText">* Do not store more than a small amount of money in this account</div>
+                    <div class="infoText">* Investing in Litecoin is risky. Do not keep too much money here.</div>
+                    <div class="infoText">* Use other websites to keep track of the Litecoin exchange rate</div>
+                    <div class="infoText">* Use other websites for learning about Litecoin as well!</div>
+                    <div class="infoText">* Technical support: 1-877-DEXAGON</div>
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="USES" class="tabcontent">
+                    <div class="infoText">* Use this to get familiar with Litecoin</div>
+                    <div class="infoText">* Use this as your primary wallet</div>
+                    <div class="infoText">* Use this to provide anonymity</div>
+                    <div class="infoText">* Use this to send and receive Litecoin with anyone, anywhere</div>
+                    <div class="infoText">* Use this to show others how Litecoin works</div>
+                    <div class="infoText">* Use this to learn about Litecoin</div>
+                    <div class="infoText">* Use this to transact business</div>
+                    <div class="infoText">* Use this to add another layer or anonymity: use and discard your wallet</div>
+                    <div class="infoText">* Use this to receive value for goods & services you provide</div>
+                    <div class="infoText">* Use this to pay for goods & services you purchase</div>
+                    <div class="infoText">* Use this as a disposable wallet. Create the wallet, receive litecoin, send received litecoin to another address, dispose of the first wallet.</div>
+                    <div class="infoText">* You can send and receive from ANY litecoin (core/BTC/XBT) wallet</div>
+
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="FEATURES" class="tabcontent">
+                    <div class="infoText">* Works inside almost any browser, on desktop and mobile</div>
+                    <div class="infoText">* Mobile version includes camera operations for QR Codes</div>
+                    <div class="infoText">* Mobile and Desktop use same Litecoin address: one wallet 2 locations</div>
+                    <div class="infoText">* You can send [ALL] your Litecoin in a single transactions (less fees)</div>
+                    <div class="infoText">* You can export your single Litecoin address to move it to another wallet</div>
+                    <div class="infoText">* You can print out  all of your transaction for a historical printout</div>
+                    <div class="infoText">* You are <b>completely in control of your public and private keys</b> </div>
+                    <div class="infoText">* You can receive Litecoin even if you are not online</div>
+                    <div class="infoText">* Transactions are published directly to the real core/BTC/XBT Blockchain</div>
+                    <div class="infoText">* Your transaction(s) may take between 10 minutes and an hour to confirm</div>
+                    <div class="infoText">* You can check your transactions using any blockchain exploring tool</div>
+                    <div class="infoText">* You can use a standard transaction fee, or set a custom fee (advanced)</div>
+                    <div class="infoText">* Higher transaction fee might make your transaction confirm faster</div>
+                    <div class="infoText">* Completely anonymous. No information about you is requested or stored!</div>
+                    <div class="infoText">* Wallets can be created at any time, and used forever.</div>
+                    <div class="infoText">* Wallets can also be created, used, and then discarded.</div>
+                    <div class="infoText">* This wallet works for core/BTC/XBT only. Not BCC, BCH, ETH, or any other altcoins.</div>
+                    <div class="infoText">* Cross-platform browser-based wallet: works on all browsers and all OSes</div>
+                    <div class="infoText">* You can display your balance in a number of different world currencies</div>
+                    <div class="infoText">* You can create a payment request ("invoice") to request money from others</div>
+                    <div class="infoText">* Your Litecoin wallet is available securely anywhere on the Internet</div>
+                    <div class="infoText">* Send money to anyone with a Litecoin wallet, anywhere in the world</div>
+                    <div class="infoText">* Transaction fees are fixed-rate, not based on the transaction amount</div>
+                    <div class="infoText">* No information is stored on our servers. Nothing to steal or hack!</div>
+                    <div class="infoText">* Use this to send money anywhere in the world ("remittance")</div>
+                    <div class="infoText">* Use this to add another layer or anonymity: use and discard your wallet</div>
+                    <div class="infoText">* Use this like a public mailbox: Anyone can "drop" money into your 
+                      mailbox (ie. you receive Litecoin), but only you can take money out 
+                      (ie. you send Litecoin)</div>
+                    <div class="infoText">* Backing up your URL and password is easy. Do it now.</div>
+                    <div class="infoText">* DexWallet uses a single Litecoin address. Other wallets might use
+                      multiple Litecoin addresses.  Why is this important?   By using a
+                      single Litecoin address, you can easily understand how Litecoin values
+                      are transferred from one user to another. However, this is may lead to
+                      a loss of anonymity. By using multiple Litecoin addresses, you can 
+                      effectively mask your true identity, and achieve a level of anonymity.
+                      You can still use DexWallet to mask your identity by using multiple
+                      DexWallet instances (each with their own unique URL and password), and
+                      you can move money from one DexWallet to another.</div>
+                    <div class="infoText">* DexWallet is available to you through any browser, so you can send and
+                      receive Litecoin anywhere at any time.  Be careful if you are using a 
+                      public computer, as it could be a compromised computer, and someone 
+                      could steal your Litecoin.  If you use a public computer, you should 
+                      completely wipe the browser history after you are done with your 
+                      Litecoin transactions.</div>
+                    <div class="infoText">* For information about Litecoin itself, go to:  <a href='http://litcoin.org' target='_blank' style='color:#337ab7;'>http://litcoin.org</a></div>
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="SEND" class="tabcontent">
+                    Sending is easy! You can send Litecoin to anyone, anywhere!<br><br>
+
+                    To send Litecoin, all you need is a receiving address and the amount that you want to send.  (There are two optional items that you can add to the transaction, but you probably don't need them!)<br><br>
+
+                    1. <b>Receiving Address</b> [Required]<br>
+                    This is the Litecoin address for the Litecoin that you send.  This is the "payee" or "receiver", which goes in the "Receiving Address" field 
+                    under the  [SEND] button.  You must get the correct "receiver address" from the intended receiver, as it is not something that can easily be 
+                    typed into a small field (even on a desktop!) You can send money to *ANY* Litecoin (core/BTC/XBT) wallet.<br><br>
+
+                    You can get this address from the receiver in a few different ways:<br><br>
+
+                    * For the desktop version: You can use a cut-and-paste technique.
+                      For example, the receiver can send you their receiving address in an email, a text message, on a website, etc). <br><br>
+
+                    * For the mobile version: You can use the same cut-and-paste approach, or you can use the camera on your smartphone and the receiver's QR code (which could be on paper, in an email, on a website, etc.) The camera can be accessed by using the small camera icon <button><i class="glyphicon glyphicon-camera"></i></button> to the left of the "receiving address" field.<br><br>
+
+                    2. <b>Amount</b> [Required]<br>
+                    This is the amount of Litecoin that you wish to send.  When you type numbers into this field, you are automatically shown the equivalent 
+                    in either Litecoin or your currency of choice, depending on the setting of the currency button (just to the left of the input area. <button><span class="addonBox">Ł</span></button> ) The 
+                    amount of Litecoin that you send is exactly what the receiver will receive. The transaction fee is added on top of your specified amount, 
+                    so you can't  actually send the precise total amount in your wallet. (You can send most of it, less the transaction fee, to empty out your wallet.)<br><br>
+
+                    3 <b>Comment</b> [Optional]<br>
+                    You can include up to 37 characters in the transaction which will be stored on the blockchain forever, with an immutable date&time stamp. Do not put any passwords and or anything in this comment that should remain secure, because it can be seen by anyone! You can use this to "document" your transaction.  In the future, you can use this to prove that this transaction happened on that specific date and time.  Note 
+                    that the transaction fee is based on the number of characters in the transaction, so adding text here increases the number of characters, and therefore the fees, for this transaction.  The comment field has a limited character set: you can only use letters, numbers, and the following punctuation: ! @ # $ % ^ & * ( ) [ ] | ; : ? . , ~ <br> 
+                    You cannot use any slashes, angle brackets,  single or double quotes, or other symbols.<br><br>
+
+                    Important: Although this information is stored on the blockchain, it might be hard to find again later due to the size of the blockchain. If you want to be able to find this transaction (and its comment) again, you should create a mechanism of storing your transactions, such as a flat text file.  Alternatively, you can always use the DexWallet to find your transactions.  However, the DexWallet doesn't show the comments that are associated with any transaction.<br><br>
+
+                    4 <b>Fee (in satoshis per byte)</b> [Optional]<br>
+                    The transaction fee is used to pay for the resources to validate your transaction.  It is the payment that the miners take for validating 
+                    your trasaction mathematically.  These miners are also the keepers of database copies. There are more than 6,000 mining servers at this time.<br><br>
+
+                    The transaction fee, also called the "mining fee" is calculated automatically, and is based on the number of charcters in the transaction (and a few other factors). DexWallet always recommends a fee that is based on the current parameters of the blockchain network.<br><br>
+
+                    There are FOUR levels of fees: default, normal, half hour, and one hour. The default fee should be used unless you know EXACTLY what you are doing. Higher fees will generally get your transaction confirmed faster, but at a cost. Lower fees may slow down your transaction, but it will save you some money. If you don't understand this, just use the default fee, which could take up to an hour before your transaction is confirmed.  (NOTE: The fees flcutuate partially due to the traffic on the Litecoin network, so higher fees will prioritize your transactions. Most of the time, this is not necessary.)<br><br>
+
+                    5 <b>Confirm</b><br>
+                    Once these fields have been completed, you can CONFIRM your transaction to the Litecoin blockchain. You will be given some transaction info and 
+                    presented with a "confirm" dialogue box before the transaction is handed over to the Litecoin network.<br><br>
+
+                    Once the transaction has been broadcasted on the Litecoin network, you can follow its progress using any blockchain transaction browser by 
+                    clicking on the transaction ID in your DexWallet history listing.
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="RECEIVE" class="tabcontent">
+                    Receiving money is easy!<br><br>
+
+                    You do not have to be logged into your wallet to receive money. Like a bank account, anyone can put money into your Litecoin account at any time,
+                    whether you are in the bank or not.  Your Litecoin address is merely a drop box for Litecoin value.<br><br>
+
+                    You can receive Litecoin from *ANY* Litecoin (core/BTC/XBT) wallet.<br><br>
+
+                    In order to receive money, the sender needs to know your Litecoin address.You can send this to them in a number of different ways.  For instance, you could use a cut-and-paste operation to grab your Litecoin address from
+                    DexWallet, and then paste it into a text message, or into an email, for the sender to use to target their payment to you.   If the sender and the receiver are actually in the same room (or visually linked through a video call like Skype), you can simply show the sender your QR Code and they can use the camera on their wallet to send the money to you. To reveal the QR code, use the button.<button><i class="glyphicon glyphicon-piggy-bank"></i></button><br><br>
+
+                    The receive function in the DexWallet adds one more feature.  You can "request" a specific amount of money (in Litecoin) from the sender by using the DexWallet to create a QR Code with your receiving address AND 
+                    the amount of Litecoin in one single QR code. This makes the transaction work easier for the sender, because they will already have your address 
+                    and the correct amount, and they won't have to type in anything!  This is ideal for merchants who want to charge (ie. receive) a specific amount of bitocin from their customer(s).
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="DICTIONARY" class="tabcontent">
+                    <div class="row">
+                        <div class="col-sm-4">Tx:</div>
+                        <div class="col-sm-8">An abbreviation for "transaction".</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Receiving Address:</div>
+                        <div class="col-sm-8">The target (ie. receiver) of the funds in any Tx.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Transaction Fee:</div>
+                        <div class="col-sm-8">A fee required for the miners who validate transactions.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Miner:</div>
+                        <div class="col-sm-8">A server that does the math behind the validation, as well as storing a complete history of the blockchain, complete with *ALL* Litecoin transaction, ever.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">Retailer, Merchant:</div>
+                        <div class="col-sm-8">Merchant who accepts Litecoin for goods or services.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">User:</div>
+                        <div class="col-sm-8">Someone who uses Litecoin to pay for goods & services.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Exchange Rate:</div>
+                        <div class="col-sm-8">A number used to calculate the ratio of Litecoin to fiat money.</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">LTC:</div>
+                        <div class="col-sm-8">They are same as Litecoin.</div>
+                    </div>
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="FAQ" class="tabcontent">
+                    Q: If nothing is stored on a server, and there is no "user account", 
+                       how can I login to my wallet the second (and subsequent) times?<br>
+                    A: We have very carefully contructed the URL to include information
+                       about your wallet's Litecoin address (and other parameters). You must 
+                       backup the URL and use it EVERY TIME you visit the DexWallet site.<br><br>
+
+                    Q: Does this mean that different URLs go to different Litecoin addresses?<br>
+                    A: YES!   Further, it means that you can have as many DexWallets (or 
+                       Litecoin addresses) as you wish!  Create two different DexWallets and 
+                       use them to send money to each other for practice. Or create a wallet
+                       for a specific use, and then, as soon as the money is received, send 
+                       that money to a different wallet and then never use that first wallet 
+                       again. Remember that every transaction uses a small transaction fee.<br><br>
+
+                    Q: I am storing my DexWallet URLs in my browser bookmarks. Is this OK?<br>
+                    A: This is not a good idea, for a number of reasons:  First, if you have
+                       more than one DexWallet, you might get them confused. Second, if your
+                       browser or computer crashes, you may lose your bookmarks, and 
+                       you will never be able to recover your Litecoin.  Third, if other 
+                       people use your computer, they might be able to gain access to your 
+                       Litecoin wallet and spend your money.   So, you can do this, but it 
+                       should not be the only backup your have of your DexWallet URLs, and 
+                       you should set a strong password on your DexWallet account.<br><br>
+                       
+                    Q: Can I use the desktop version *AND* the mobile version?<br>
+                    A: Yes!  If you use the same URL, you will get to the same DexWallet 
+                       on either (or both) devices.  Since the Litecoin network is completely
+                       synchronized, anything you do on one version will be automatically
+                       included in all other versions.  You can use your DexWallet URL in
+                       (almost) any browser on (almost) any device!<br><br>
+                       
+                    Q: I want to completely clear out my DexWallet address by sending all
+                       all of the Litecoin to another address.  How do I know how much I can
+                       send and still leave enough Litecoin for the small transaction fee?<br>
+                    A: When you decide to send all of the Litecoin from your DexWallet, and
+                       you use the [SEND] button to create the transaction, you will be 
+                       prompted with a [CONFIRM] dialogue box that shows you the details of
+                       your transaction.  A few attempts will allow you to calculate the 
+                       precise amount you can transfer while leaving the rest of the value
+                       for the transaction fee.  A [SEND-ALL-Litecoin] button has been 
+                       suggested, so it might appear in a future revision of this software.<br><br>
+
+                    Q: Where can I find out more about Litecoin?<br>
+                    A:   Start with <a href='http://litcoin.org' target='_blank' style='color:#337ab7;'>http://litcoin.org</a><br><br>
+                       
+                    Q: Who is DexCoin / Dexagon ?<br>
+                    A:   Dexagon is Toronto-based technology and blockchain company. This is the first public blockchain project from Dexcoin.ca, and there are many more projects
+                       like this in development.  Check out our other services at: <a href='http://dexagon.com' target='_blank' style='color:#337ab7;'>
+                       http://dexagon.com</a><br><br>
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="BACKUP" class="tabcontent">
+                    You must backup <b>your URL</b> as well as <b> your password </b>. Together, they provide the security of your wallet. If you lose either one (or both), your Litecoin funds will be lost. Be sure to backup both of these items to retain access to your funds. (Backing up the QR code is also a good idea, which can be done with a print-screen or a normal print operation.)<br><br>
+
+                    Instructions:<br>
+                    1.  Use the "settings" button <button type="text" class="glyphicon glyphicon-cog"></button> at the top of the screen to access the 
+                        settings menu, and select [BACKUP].<br><br>
+
+                    2.  If you are on a desktop, you can use a screen-print function, or 
+                        simply print the page to a printer.  Store this in a very safe place.
+                        (Some people like to laminate this printout to make it more robust,
+                        but be careful where you take it to be laminated, because exposing 
+                        this page to anyone could result in your Litecoin being stolen!)<br><br>
+
+                    3.  If you are on a mobile device, you can use a screenshot.  Be careful
+                        where you store this screenshot, and do not show it to anyone.<br><br>
+
+                    4.  For even more protection, you can simply write down the words and 
+                        the password, and disregard the QR code that is presented to you.
+
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+                <div id="ABOUT" class="tabcontent">
+                    DexWallet v1.00<br>
+                    Released: 2017-10-20<br>
+                    Built by: Dexagon Inc.<br>
+                    Tech Support: 1-877-DEXAGON (877-339-2466)<br>
+                    Mon-Fri 9:00am - 5:00pm EST<br>
+                    Donations:<span style="font-weight:bold;">1DHftDKiqMJLAjFb9U768G8T8rjaUN7Q6G</span><br>
+                    <img src="css/donation.png">
+                    <div class="infoTitle"><b>IMPORTANT: Keep track of your URLs, and passwords, as they represent your wallet.  If you lose your URL(s) and/or your passwords, your Litecoin will be lost forever! Make sure you backup your URL and password. Do not share this URL or your password with ANYONE.</b></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Setting Modal -->
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a class="modal-title" id="exampleModalLabel"></a>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <div class="container col">
+                <div id="settingsChoices">
+                        <button type="button" class="btn btn-primary" id="choiceCurrency">
+                          Setting Currency
+                        </button>
+                        <button type="button" class="btn btn-primary" id="choiceBackup">
+                          Backup
+                        </button>
+                </div>
+
+                <div id="settingsCurrency">
+                    <div class="form-group">
+                        <label>Active currency</label>
+                        <select id="currencySelect" class="form-control">
+                        </select>
+                    </div>
+                </div>
+                <div id="settingsBackup">
+                    <div class="form-group">
+                        <label>Mnemonic words</label>
+                        <textarea rows="3" type="text" class="form-control" id="txtMnemonic4Bk" readonly></textarea>
+                        <label>Password</label>
+                            <input type="text" class="form-control" id="txtPassword4Bk" readonly>
+                        <label>Bitcoin Address</label>
+                            <input type="text" class="form-control" id="backupPubkey" readonly>
+                        <label>URL</label>
+                        <textarea rows="3" type="text" class="form-control" id="backupUrl" readonly></textarea>
+                        <label>Wallet QRcode</label><br>
+                        <img src="css/Bitcoin1.png" id="qrUrl4Bk">
+                    </div>
+                    <button id="btnPrint" type="button" class="btn btn-primary">Print</button>
+                    <div>
+                        <br>There are 3 ways to restore your wallet:<br><br>
+                        1. If there is a password on your account, you can use the QR code shown
+                           above, which will recreate the correct link to DexWallet, and then 
+                           you can enter your password. This is the simplest way to restore 
+                           your DexWallet.<br><br>
+                        2. If there is no password, you can use the mnemonic words and
+                           manually build a URL that will access your DexWallet account. 
+                           Start with: https://dexcoin.ca/wallet, then add a hash symbol
+                           ("#"), then use the words EXACTLY as shown above, connecting them
+                           with an underscore, like this: https://dexcoin.ca/wallet/#these_are_the_words_that_you_backed_up<br><br>
+                        3. If you wish to move to another wallet, and there is no password on 
+                           your DexWallet, you can use the mnemonic list of words to recreate
+                           your bitcoin address in that other wallet.  Be sure to select a wallet
+                           that allows you to enter your list of twelve words.<br>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+      </div>
+</div>
+<!-- Login Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="passwordModalheader">
+            </div>
+            <div class="modal-body">
+
+                <img src='./css/dex-logo.gif' height='30px' border='0' hspace='3px'>
+                <label> Welcome to DexCoin's DexWallet.</label><br>
+                    This is a FREE browser-based bitcoin wallet that allows you to send and receive bitcoins from any wallet on the bitcoin (core/BTC/XBT) blockchain.<br><br>
+
+                    If you have been here before, and you already have a DexWallet URL, you should probably use that to access this service. This is especially true if you already have bitcoin in your (existing) wallet.<br><br>
+
+                    If you haven't been here before, or simply want to create a new wallet, you have to choose between using a password or not using a password. <b>DexWallet strongly suggests that you use a password, as it provides 
+                    additional protection for your bitcoin wallet</b>.<br><br>
+
+                    The advantage of using a password is increased security. The disadvantage is that you have to remember (and backup!) your password. Losing either the URL or the password will result in your losing your bitcoins. Remember to backup EVERYTHING that is important to you.<br><br>
+
+                    The advantage of not using a password is that getting into your wallet is one step shorter than using a password.  However, without that one step, you bitcoin wallet is easier to comprise.<br><br>
+                    <b>DexWallet strongly recommends that you use a password!</b><br><br>
+
+                    Do you want to setup a password for your new wallet?<br><br>
+
+                    <button type="button" class="btn btn-primary" id="setupPassword">Yes</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="generateAddress6()">No</button>
+
+                <div id="passwordBox">
+                <hr>
+                    <div class="form-group">
+                        <form style="max-width:350px">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="txtPassword" placeholder="Password">
+                                    <div class="input-group-btn">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="loginBtn" onclick="generateAddress5()">Confirm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+</div>
+<!-- Login2 Modal -->
+<div class="modal fade" id="enterPassword" tabindex="-1" role="dialog" aria-labelledby="enterPasswordLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body">
+                    <div class="alert alert-danger collapse" role="alert" id="wrongPassword">
+                    </div>
+                    <div class="form-group">
+                        <form style="max-width:350px">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="chkPassword" placeholder="Password">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default" id="loginBtn2" onclick="checkPassword()">Login</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>
+      </div>
+</div>
+<!-- Message Box -->
+<div class="alert alert-success collapse" role="alert" id="success" style="text-align:center;">
+  <strong>You successfully sent!</strong>
+</div>
+<!-- Message Box -->
+<div class="alert alert-danger" hidden="hidden" id="error" style="text-align:center;">
+    <button type="button" class="close" data-hide="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="errorMsg"></div>
+</div>
+
+
+<div class="container">
+<!-- Your Bitcoin address -->
+    <center>
+        <table border="0" align="center" cellpadding="01" cellspacing="01">
+            <tr>
+                <td width="100%" valign="top" align='center'>
+                    <div id="bgNAVY_E5ECF9">
+                        <u class="rtop"><u class="r1"></u><u class="r2"></u><u class="r3"></u><u class="r4"></u></u>
+                        <table class="box">
+                            <tr>
+                                <td class="box-header" colspan='9'>
+                                    <b>Your Litecoin Address</b>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td class="tbl-border"></td></tr></table>
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td colspan='9' align="center" valign="top">
+                                    <hr>
+                                    <p id="publicKey"></p>
+                                    <hr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <div id="qrcode"></div>
+                                </td>
+                                <td align="center">
+                                    Your current Litecoin Balance:<br>
+                                    <span id="balance">
+                                    </span>
+                                    <br>
+                                    <div id="currency"></div>
+                                </td>
+                                <td align="center">
+                                    <!--img src='./css/Halloween.png' height='55px' border='0' hspace='3px'-->
+                                    <img src='./css/litecoin-logo.png' height='55px' border='0' hspace='3px'>
+                                </td>
+                            </tr>
+                        </table>
+                        <table cellpadding='3' cellspacing='0' border='1' width='100%'>
+                            <tr>
+                            <button id="openSend" type="button" class="btn btn-info" data-toggle="collapse" data-target="#send">Send</button>
+                            <button id="openReceive" type="button" class="btn btn-info" data-toggle="collapse" data-target="#receive">Receive</button>
+                            </tr>
+                        </table>
+                    <div xid="bgNAVY_E5ECF9">
+                </td>
+            </tr>
+        </table>
+
+        <div id="send" class="collapse">
+                <form style="max-width:350px">
+                    <div class="input-group">
+
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="scanQRcode();"  data-toggle="modal" data-target="#ScannerModal">
+                            <i class="glyphicon glyphicon-camera"></i>
+                            </button>
+                        </div>
+                        <input type="text" class="form-control" id="sendAddr" placeholder="Receiving Address">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"  type="button" id="changeType" style="cursor:pointer;"><span class="addonBox">Ł</span></span>
+                        <input type="text" class="form-control" id="txtAmount" placeholder="Amount"><span id="fiatPrice"></span>
+                    </div>
+                    <!-- deal with Litecoin
+                    <div class="input-group">
+                        <span class="input-group-addon"  style="padding:0px 7px;">DEX</span>
+                        <input type="text" class="form-control" id="message" maxlength="37" placeholder="Comment (37bytes, optional)">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" type="button" id="infoFee" style="padding:0px 8px;cursor:help;">Fee</span>
+                        <div class="miningOption" style="width:75%;">
+                            <div class="miningOptionRight" style="width:100%;">
+                                <div class="form-group">
+                                    <select id="feeSelect" class="form-control" style="max-width:;">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="miningOption" style="width:25%;">
+                            <div class="miningOptionRight">
+                                <input class="form-control" placeholder="Custom" id="txtFeeAmount" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="input-group">
+                            <div class="input-group-btn">
+                                <!--button class="btn btn-default" type="button" onclick="sendBitcoinwithMessage();"-->
+                                <!-- button class="btn btn-default" type="button" onclick="sendBitcoin();"-->
+                                <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#sendModal" style="width:100%;" id="sendBtn" disabled="disabled">
+                                CONFIRM
+                                </button>
+                            </div>
+                    </div>
+
+                </form>
+        </div>
+        <div id="receive" class="collapse">
+                <form style="max-width:350px">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="changeType2" style="cursor:pointer;""><span class="addonBox">Ł</span></span>
+                        <input type="text" class="form-control" id="Recamount" placeholder="Amount:"><span id="fiatPrice2"></span>
+                        <div class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="generateQRcode();"  data-toggle="modal" data-target="#ReceivingQRcode">
+                            <i class="glyphicon glyphicon-piggy-bank"></i>
+                        </button>
+                        </div>
+                    </div>
+                </form>
+        </div>
+    </center>
+
+    <br>
+
+<!-- Your Bitcoin Transactions -->
+    <table border="0" align="center" cellpadding="01" cellspacing="01" id="history">
+        <tr>
+            <td width="100%" valign="top" align='center'>
+                <div id="bgNAVY_E5ECF9">
+                    <u class="rtop"><u class="r1"></u><u class="r2"></u><u class="r3"></u><u class="r4"></u></u>
+                    <table class="box">
+                        <tr>
+                            <td colspan='9' class="box-header">
+                                <b>Your Litecoin Transactions</b>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                 <tr><td class="tbl-border"></td></tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <tr style='font-weight:bold;'>
+                            <th>&nbsp;</th>
+                            <th style="border-radius:7px 0 0 7px;padding:10px;">Date/Time(Local)</th>
+
+                            <th class="hidden-sm hidden-xs" align="left" style="padding-left:10px;">Transaction ID</th>
+                            <th style="border-radius:7px 0 0 7px;padding:10px;"></th>
+                            <th class="hidden-sm hidden-xs" align="right" style="padding-right:10px;">Confirmations</th>
+                            <th style="border-radius:0 7px 7px 0; text-align:right;">Amount (LTC)</th>
+                            <th>&nbsp;</th>
+                        </tr>
+
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div id="nohistory">
+        <hr>
+            No transaction history
+        <hr>
+    </div>
+<br>
+</div>
+</center>
+<!-- Bottom Copyright and Disclaimer stuff -->
+<center>
+    <table border="0" cellpadding="0" cellspacing="0" width="95%">
+         <tr><td class="tbl-border"></td></tr>
+    </table>
+
+    <div id="bgNAVY_E5ECF9" style="width:95%">
+        <!--u class="rtop"><u class="r1"></u><u class="r2"></u><u class="r3"></u><u class="r4"></u></u-->
+        <table width="95%" cellpadding="0" cellspacing="0" border="0" align="center" bgcolor="Navy" >
+            <tr>
+                <td valign="bottom" align="center">
+                    <span style='color:#FFFFFE;font-weight:bold;'>DexWallet</span></a>
+                    <a href="http://dexagon.com/index.html"><span style='color:#FFFFFE;'>by Dexagon Inc.</span></a>
+                </td>
+            </tr>
+        </table>
+        <u class="rbottom"><u class="r4"></u><u class="r3"></u><u class="r2"></u><u class="r1"></u></u>
+    </div> 
+</center>
+
+
+
+<!-- Modal for ScanQRcode -->
+<div class="modal fade" id="ScannerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h7 class="modal-title" id="exampleModalLabel">ScanQRcode</h7>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="reader" style="width:300px;height:250px">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"  onclick="stopCamera();">Stop</button>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!-- Modal for ReceivingQRcode -->
+<div class="modal fade" id="ReceivingQRcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h7 class="modal-title" id="exampleModalLabel">ReceivingQRcode</h7>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Requesting <span id="generateAmount"></span> LTC <span id="fiatPrice3"></span> to:</p>
+            <p border='0' height='60px' vspace='10px' id="generateAddress"></p>
+            <img src="css/Bitcoin1.png" id="receiveQR">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" ">Stop</button>
+          </div>
+        </div>
+      </div>
+</div>
+
+<!-- Modal for Confirmation -->
+<div class="modal fade" id="sendModal" tabindex="-1" role="dialog" aria-labelledby="sendModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body" position="center">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="sendBitcoin()">Confirm</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+            <!--p id="fee"></p-->
+            <hr>
+            <p style="font-size: 7;color:gray;">This transaction includes approximately <span id="miningfee"></span> LTC fee <span id="fiatfeePrice"></span></p>
+          </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading modal -->
+<div id="loader-bg">
+  <div id="loader">
+    <img src="css/gif-load.gif" width="80" height="80" alt="Sending transaction..." />
+    <p>Processing...</p>
+  </div>
+</div>
+<audio id="noise"></audio>
+
+<script type="text/javascript">
+    // All bitcoin functions are in app.js
+    // You can add codes here except bitcoin functions.
+
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+
+</script>
+
+</body>
+</html>
