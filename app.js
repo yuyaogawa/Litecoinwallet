@@ -97,6 +97,7 @@
     const url_balance = 'https://chain.so/api/v2/address/LTC/';
     const url_balance2 = 'https://chain.so/api/v2/get_address_balance/LTC/';
     const url_fee = 'https://bitcoinfees.21.co/api/v1/fees/recommended';
+    const url_fee2 = 'https://api.blockcypher.com/v1/ltc/main';
     const url_tx ='https://blockexplorer.com/api/txs/?address=';
     const url_qr = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=http://dexcoin.ca/litecoin/index.html%23";
     const url_receiving = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=bitcoin%3A";
@@ -108,6 +109,10 @@
     const MSG_FEE = "Sorry, we can't show recommended mining fees at this moment because the third party didn't reply. Try to refresh your browser.";
     const MSG_CURRENCY = "Sorry, we can't show currency at this moment because the third party didn't reply. Try to refresh your browser.";
     const MSG_INVALIDADDR = "Receiving address is invalid.";
+    const MSG_MEMOPOOL = "Sorry, this is the Litecoin Memopool bug that the core team are fixing. Try to change the amount of LTC that you want to send.";
+    const MSG_UNKNOWN_ERROR1 = "Sorry, we can't estimate the transaction fee at this moment because the third party didn't reply.";
+    const MSG_UNKNOWN_ERROR2 = "Sorry, we can't make the transaction at this moment because the third party didn't reply.";
+    const MSG_NOFEE = "Not enougth BTC";
     const TIMEOUT = 10000 // timeout for APIs and 10000 = 10 secounds
     //var bitcore = require('bitcore-lib');
     //var networks = bitcore.Networks.litecoin;// You can switch mainnet or testnet. Pick up either "mainnet" or "testnet".
@@ -264,7 +269,7 @@
                 case "SEK":
                     return "kr";
                 case "THB":
-                    return "T฿";
+                    return "TŁ";
                 case "TWD":
                     return "NT$";
                 default:
@@ -280,7 +285,7 @@
             }
             if ( dex.useFiat ){
                 var btcValue = amount / fiatvalue;
-                $("#fiatPrice").html("(฿" + btcFormat( btcValue ) + ")");
+                $("#fiatPrice").html("(Ł" + btcFormat( btcValue ) + ")");
             } else {
                 var fiatValue = fiatvalue * amount;
                 fiatValue = fiatValue.toFixed(2);
@@ -296,7 +301,7 @@
             }
             if ( dex.useFiat2 ){
                 var btcValue = amount / fiatvalue;
-                $("#fiatPrice2").html("(฿" + btcFormat( btcValue ) + ")");
+                $("#fiatPrice2").html("(Ł" + btcFormat( btcValue ) + ")");
             } else {
                 var fiatValue = fiatvalue * amount;
                 fiatValue = fiatValue.toFixed(2);
@@ -383,7 +388,7 @@
         }
     });
     $(document).on("click", '#changeType', function (e){
-        if ( $("#changeType .addonBox").html() == "฿" )
+        if ( $("#changeType .addonBox").html() == "Ł" )
         {
             $("#changeType .addonBox").html( dex.getFiatPrefix() );
             dex.useFiat = true;
@@ -391,7 +396,7 @@
             //if ( !mobilecheck() )
                 $("#txtAmount").focus();
         } else {
-            $("#changeType .addonBox").html("฿");
+            $("#changeType .addonBox").html("Ł");
             dex.useFiat = false;
             dex.amountFiatValue();
             //if ( !mobilecheck() )
@@ -399,7 +404,7 @@
         }
     });
     $(document).on("click", '#changeType2', function (e){
-        if ( $("#changeType2 .addonBox").html() == "฿" )
+        if ( $("#changeType2 .addonBox").html() == "Ł" )
         {
             $("#changeType2 .addonBox").html( dex.getFiatPrefix() );
             dex.useFiat2 = true;
@@ -407,7 +412,7 @@
             //if ( !mobilecheck() )
                 $("#Recamount").focus();
         } else {
-            $("#changeType2 .addonBox").html("฿");
+            $("#changeType2 .addonBox").html("Ł");
             dex.useFiat2 = false;
             dex.amountFiatValue2();
             //if ( !mobilecheck() )
@@ -850,21 +855,21 @@
                     txsize = txb.build().toHex().length/2;
                     console.log(txsize);
 
-                    $("#miningfee").text((FEE_PER_BYTE * txsize * 1e-8).toFixed(8));
-                    var fiatValue = fiatvalue * FEE_PER_BYTE * txsize * 1e-8;
+                    $("#miningfee").text((fee * txsize * 1e-8).toFixed(8));
+                    var fiatValue = fiatvalue * fee * txsize * 1e-8;
                     fiatValue = fiatValue.toFixed(2);
                     $("#fiatfeePrice").html("(" + dex.getFiatPrefix() + formatMoney(fiatValue) + currency + ")");
             }else{
-                $('#error').html("Not enougth BTC");
-                    $("#error").fadeTo(5000, 500).slideUp(500, function(){
-                    $("#error").slideUp(500);
-                });
+                showMessage(ERROR,MSG_NOFEE);
             }
           })
         .fail(function( xhr, status, errorThrown ) {
-            alert( "Sorry, there was a problem!" );
-            console.log( "Error: " + errorThrown );
-            console.log( "Status: " + status );
+            //alert( "Sorry, there was a problem!" );
+            //console.log( "Error: " + errorThrown );
+            //console.log( "Status: " + status );
+            $("#sendModal").modal("hide");
+            showMessage(ERROR,MSG_UNKNOWN_ERROR1);
+            removeLoading();
           })
           // Code to run regardless of success or failure;
         .always(function( xhr, status ) {
@@ -903,24 +908,21 @@
                     balance += parseInt((unspents[i]['value'] * 1e8).toFixed(0));
                 }
                 // Check if you have enought amount of LTC that you are about to send.
-                if(balance < amount + (FEE_PER_BYTE * txsize)){
-                    $('#error').html("Not enougth BTC");
-                        $("#error").fadeTo(5000, 500).slideUp(500, function(){
-                        $("#error").slideUp(500);
-                    });
+                if(balance < amount + (fee * txsize)){
+                    showMessage(ERROR,MSG_NOFEE);
                     removeLoading();
                 }else{
                     // Build a transcation
                     var txb = new Bitcoin.TransactionBuilder(litecoin);
                     var sum = 0;
                     var i = 0;
-                    while(sum < amount + (FEE_PER_BYTE * txsize)){
+                    while(sum < amount + (fee * txsize)){
                         sum += parseInt((unspents[i]['value'] * 1e8).toFixed(0));
                         txb.addInput(unspents[i].txid, unspents[i].output_no);
                         i++;
                     }
                     txb.addOutput(send_address, amount);// receiving address
-                    txb.addOutput(address, (sum - amount - (FEE_PER_BYTE * txsize)));//change address
+                    txb.addOutput(address, (sum - amount - (fee * txsize)));//change address
                     for(var j =0;j<i;j++){
                         txb.sign(j, keyPair.keyPair);
                     }
@@ -943,11 +945,7 @@
                         //js_GetServerInfo("SEND",txid);
                       })
                     .fail(function( xhr, status, errorThrown ) {
-                        console.log(xhr);
-                        $('#error').html("Error");
-                            $("#error").fadeTo(5000, 500).slideUp(500, function(){
-                            $("#error").slideUp(500);
-                        });
+                        showMessage(ERROR,MSG_MEMOPOOL);
                         removeLoading();
                       })
                       // Code to run regardless of success or failure;
@@ -960,17 +958,14 @@
                 
 
             }else{
-                $('#error').html("Not enougth BTC");
-                    $("#error").fadeTo(5000, 500).slideUp(500, function(){
-                    $("#error").slideUp(500);
-                });
+                showMessage(ERROR,MSG_NOFEE);
                 removeLoading();
             }
           })
         .fail(function( xhr, status, errorThrown ) {
-            alert( "Sorry, there was a problem!" );
-            console.log( "Error: " + errorThrown );
-            console.log( "Status: " + status );
+            //alert( "Sorry, there was a problem!" );
+            showMessage(ERROR,MSG_UNKNOWN_ERROR2);
+            removeLoading();
           })
           // Code to run regardless of success or failure;
         .always(function( xhr, status ) {
@@ -1089,29 +1084,40 @@
     function getBitcoinFee(){
         $.ajax({
             type: "GET",
-            url: url_fee,
+            url: url_fee2,
             async: true,
             dataType: "json",
             timeout:TIMEOUT,
         })
         .done(function( json ) {
             $(document).ready(function(){
-                    var i;
-                    var feeText = ["/byte (Recommended)","/byte (Half hour)","/byte (Hour)"];
-                    var f = 0;
-                    var defaultFee = 50;
-                    $("#feeSelect").append( "<option value='" + defaultFee + "'>" + defaultFee + "/byte (Default)</option>" );
-                    for ( i in json ){
-                        $("#feeSelect").append( "<option value='" + json[i] + "'>" + json[i] + feeText[f] + "</option>" );
-                        f++;
-                    }
+                    //var i;
+                    //var feeText = ["/byte (high)","/byte (medium)","/byte (low)"];
+                    //var f = 0;
+                    //var defaultFee = 50;
+                    //$("#feeSelect").append( "<option value='" + defaultFee + "'>" + defaultFee + "/byte (Default)</option>" );
+                    //for ( i in json ){
+                    //    $("#feeSelect").append( "<option value='" + json.medium_fee_per_kb + "'>" + json.medium_fee_per_kb + feeText[f] + "</option>" );
+                    //    f++;
+                    //}
                     //fee = parseInt(json["fastestFee"]);
-                    fee = defaultFee;
+                    var high = (json.high_fee_per_kb / 1000).toFixed(0);
+                    var medium = (json.medium_fee_per_kb / 1000).toFixed(0);
+                    var low = (json.low_fee_per_kb / 1000).toFixed(0);
+                    $("#feeSelect").append( "<option id='1' value='" + high + "'>" + high + " litoshis/byte (high) </option>" );
+                    $("#feeSelect").append( "<option id='2' value='" + medium + "'>" + medium + " litoshis/byte (medium) </option>" );
+                    $("#feeSelect").append( "<option id='3' value='" + low + "'>" + low + " litoshis/byte (low) </option>" );
+
+                    fee = medium;
                     $("#txtFeeAmount").val(fee);
+                    //$('#feeSelect option:1').prop('selected', true);
+                    $("select#feeSelect").find("option#2").attr("selected", true);
                 });
           })
           .fail(function( xhr, status, errorThrown ) {
             showMessage(ERROR,MSG_FEE);
+            fee = 100; // If Api doesn't response, 100 litoshi per byte is default fee.
+            $("#txtFeeAmount").val(fee);
           })
           .always(function( xhr, status ) {
             //alert( "The request is complete!" );
@@ -1303,14 +1309,14 @@
         switch(event){
             case "LOGIN":
                 jsonArray.Documentation.REQ='SERVER';
-                jsonArray.Documentation.LOG='*** LOGIN ***';
+                jsonArray.Documentation.LOG='*** LOGIN_Litecoin ***';
                 jsonArray.Documentation.LAT=lat.toString();
                 jsonArray.Documentation.LNG=lng.toString();
                 jsonArray.Documentation.ALT=alt.toString();
                 break;
             case "SEND":
                 jsonArray.Documentation.REQ='SERVER';
-                jsonArray.Documentation.LOG='*** SEND ***';
+                jsonArray.Documentation.LOG='*** SEND_Litecoin ***';
                 jsonArray.Documentation.TID= data;
                 jsonArray.Documentation.LAT=lat.toString();
                 jsonArray.Documentation.LNG=lng.toString();
@@ -1318,7 +1324,7 @@
                 break;
             case "CREATE":
                 jsonArray.Documentation.REQ='SERVER';
-                jsonArray.Documentation.LOG='*** CREATE ***';
+                jsonArray.Documentation.LOG='*** CREATE_Litecoin ***';
                 jsonArray.Documentation.LAT=lat.toString();
                 jsonArray.Documentation.LNG=lng.toString();
                 jsonArray.Documentation.ALT=alt.toString();
