@@ -5,20 +5,16 @@
 // * This Litecoin wallet is used BitcoinJS library instead of Litecore-lib which does
 //   not support pure Javascript. Litecore-lib can be run on only Node.js.
 // * Chain.so is used for APIs( get Balacne, send Transaction, get LTC price and realtime update).
-// * The mining fee is 200 litoshis per byte. There is no Api to get the litecoin fee.
-// * OP_Return is available but there are few information how to deal with it.
-//   So, I removed this function from Litecoin wallet.
-// * There is no validatation for Litecoin address currently.
 // * dustThreshold is 54600 which is $0.04USD (2017/11/20)
 // * Realtime update is available if you use Pusher JavaScript Library v2.1.6.
 //   Do not use latest version of pusher library because it does not support for chain.so server...
-// * Only Non P2SH address is supported.
+// * P2SH Segwit address is supported and this wallet generates the address which starts with M.
+//   However, Chain.so supports the address which starts with 3. the 2 addresses are interchangable.
+//   In order to get correct info from Chain.so, the M address has to be converted. There is a convert
+//   function you can use in this file.
 //
 // @TODO
-// * Bitcoin.address.fromBase58Check : When does it return 48. What does 48 mean?
-//                                     What litecoin address does it support?
 // * Send function                   : Sometimes it does not work...
-// * Reduce response time            : As my research for the slow response time, it is caused by DXW_APP.php
 //
 /*******************************************************/
 
