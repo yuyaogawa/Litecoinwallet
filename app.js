@@ -324,7 +324,10 @@
             {
                 var res = Bitcoin.address.fromBase58Check(address);
                 var version = res.version;
-                if (version == 48 || version == 48 )
+                // 5  is for addresses start with 3( p2sh address)
+                // 48 is for addresses start with L( standard address)
+                // 50 is for addresses start with M( segwit address)
+                if (version == 5 || version == 48 || version == 50 )
                     return true;
             }
             catch (err)
@@ -681,8 +684,13 @@
         address = keyPair.getAddress();
         **/
         //Litecoin
+        // We followed the BIP44(https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+        //var path = "m/44'/0'/0'/0/1"// This is for Bitcoin
+        //var path = "m/44'/2'/0'/0/1"// This is for Litecoin
+
         var path = "m/44'/0'/0'/0/1"
         var Mseed = code.toSeed(code);
+        //var Mseed = code.toSeed(code);
         var root = Bitcoin.HDNode.fromSeedBuffer(Mseed,litecoin);
         var child1 = root.derivePath(path);
         keyPair = child1;
@@ -848,7 +856,7 @@
                         i++;
                     }
                     txb.addOutput(send_address, amount);// receiving address
-                    txb.addOutput(address, (balance - amount));//change address but dunny to deal with uncertan fee.
+                    txb.addOutput(address, (balance - amount));//change address but dummy to deal with uncertain fee.
                     for(var j =0;j<i;j++){
                         txb.sign(j, keyPair.keyPair);
                     }
@@ -922,7 +930,7 @@
                         i++;
                     }
                     txb.addOutput(send_address, amount);// receiving address
-                    txb.addOutput(address, (sum - amount - (fee * txsize)));//change address
+                    txb.addOutput(address, (sum - (amount + (fee * txsize))));//change address
                     for(var j =0;j<i;j++){
                         txb.sign(j, keyPair.keyPair);
                     }
