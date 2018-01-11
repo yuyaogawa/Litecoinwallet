@@ -109,7 +109,7 @@
     const MSG_FEE = "Sorry, we can't show recommended mining fees at this moment because the third party didn't reply. Try to refresh your browser.";
     const MSG_CURRENCY = "Sorry, we can't show currency at this moment because the third party didn't reply. Try to refresh your browser.";
     const MSG_INVALIDADDR = "Receiving address is invalid.";
-    const MSG_MEMOPOOL = "Sorry, this is the Litecoin Memopool bug that the core team are fixing. Try to change the amount of LTC that you want to send.";
+    const MSG_MEMOPOOL = "One of outputs is dust. it needs 0.00054600+ LTC.";
     const MSG_UNKNOWN_ERROR1 = "Sorry, we can't estimate the transaction fee at this moment because the third party didn't reply.";
     const MSG_UNKNOWN_ERROR2 = "Sorry, we can't make the transaction at this moment because the third party didn't reply.";
     const MSG_NOFEE = "Not enougth BTC";
